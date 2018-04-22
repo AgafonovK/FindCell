@@ -13,7 +13,7 @@ public class FindCell {
             {0, 1, 1, 1, 0, 1, 1, 0, 0, 1},
             {0, 0, 0, 0, 1, 0, 1, 1, 1, 0},
             {1, 0, 0, 1, 1, 1, 0, 0, 1, 0},
-            {1, 1, 0, 1, 0, 0, 0, 1, 1, 1},
+            {1, 1, 0, 1, 0, 0, 1, 1, 1, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     };
 
@@ -50,17 +50,23 @@ public class FindCell {
                     while (!treeSetToCheckList.get(i).isEmpty()) {
                         // coordinate cell to dec format cell[0][0]= cell №1; cell[0][1]=cell№2;
                         int decCell = (int) treeSetToCheckList.get(i).first();
-
-                        //System.out.println("decCell " + decCell);
+                        if (decCell== 10){
+                            System.out.println();
+                        }
+                        System.out.println("decCell " + decCell);
                         //inerting cell from dec to [x][y];
                         int xInv = decCell / mass[0].length; // get x coordinate
                         //System.out.println("xInv " + xInv);
-
-                        int yInv;
+                        //TODO !!!!!!!!!!!1Exception Array Length!!!!!!!!!!!!!!!!!
+                        int yInv=0;
                         if (x == 0) {
                             yInv = (decCell % mass[0].length) - 1;
                         }
-                        yInv = (decCell % mass[0].length); // get y coordinate
+                        yInv = (decCell % mass[0].length);
+
+                        //   System.out.println("yInv - 1 " + yInv );
+
+                        // get y coordinate
                         //System.out.println("yInv " + yInv);
 
                         checkedX(xInv, yInv, treeSetList.get(i), treeSetToCheckList.get(i));
