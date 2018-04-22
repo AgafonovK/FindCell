@@ -20,21 +20,7 @@ public class FindCell {
     private static List<TreeSet> treeSetList = new ArrayList<TreeSet>();
     private static List<TreeSet> treeSetToCheckList = new ArrayList<TreeSet>();
     private static boolean massChecked[][] = new boolean[7][10];
-
-
-    private static void initArray(int mass[][], boolean massChecked[][]) {
-        // this.mass=mass;
-        //this.massChecked=massChecked;
-
-        for (int a = 0; a < mass.length; a++) {
-            for (int b = 0; b < mass[0].length; b++) {
-                if (mass[a][b] == 1) massChecked[a][b] = true;
-                else {
-                    massChecked[a][b] = false;
-                }
-            }
-        }
-    }
+    private static final String ANSI_GREEN = "\u001B[32m";
 
     public static void main(String[] args) throws ArrayIndexOutOfBoundsException {
         long startTime, endTime;
@@ -48,7 +34,9 @@ public class FindCell {
             for (int y = 0; y < mass[0].length; y++) {
 
                 if (mass[x][y] == 1 && massChecked[x][y] != false) {
-
+                    if (i==2){
+                        System.out.println();;
+                    };
                     treeSetList.add(new TreeSet());
                     treeSetToCheckList.add(new TreeSet());
                     //cell is checked
@@ -68,7 +56,7 @@ public class FindCell {
                         int xInv = decCell / mass[0].length; // get x coordinate
                         //System.out.println("xInv " + xInv);
 
-                        int yInv = 0;
+                        int yInv;
                         if (x == 0) {
                             yInv = (decCell % mass[0].length) - 1;
                         }
@@ -100,10 +88,12 @@ public class FindCell {
 
     private static void checkedY(int x, int yCell, TreeSet treeSet, TreeSet treeSetToCheck) {
         for (int q = -1; q < 2; q++) {
-            if (q == 0)
+            if (q == 0) {
                 continue;
-            if (yCell + q < 0 || yCell + q >= mass[0].length || mass[x][yCell + q] == 0 || !massChecked[x][yCell + q])
+            }
+            if (yCell + q < 0 || yCell + q >= mass[0].length || mass[x][yCell + q] == 0 || !massChecked[x][yCell + q]) {
                 continue;
+            }
             treeSet.add(toDec(x, yCell));
             treeSet.add(toDec(x, yCell + q));
             treeSetToCheck.add(toDec(x, yCell + q));
@@ -112,10 +102,12 @@ public class FindCell {
 
     private static void checkedX(int xCell, int y, TreeSet treeSet, TreeSet treeSetToCheck) {
         for (int q = -1; q < 2; q++) {
-            if (q == 0)
+            if (q == 0) {
                 continue;
-            if (xCell + q < 0 || xCell + q >= mass.length || mass[xCell + q][y] == 0 || !massChecked[xCell + q][y])
+            }
+            if (xCell + q < 0 || xCell + q >= mass.length || mass[xCell + q][y] == 0 || !massChecked[xCell + q][y]) {
                 continue;
+            }
             treeSet.add(toDec(xCell, y));
             treeSet.add(toDec(xCell + q, y));
             treeSetToCheck.add(toDec(xCell + q, y));
