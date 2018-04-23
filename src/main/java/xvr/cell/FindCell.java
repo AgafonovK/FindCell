@@ -20,10 +20,10 @@ public class FindCell {
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     };
 
-    private static List<TreeSet<Integer>> treeSetList = new ArrayList<TreeSet<Integer>>();
-    private static List<TreeSet<Integer>> treeSetToCheckList = new ArrayList<TreeSet<Integer>>();
+    private static List<TreeSet<Integer>> treeSetList = new ArrayList<>();
+    private static List<TreeSet<Integer>> treeSetToCheckList = new ArrayList<>();
     private static boolean arrayChecked[][] = new boolean[7][10];
-    private static final String ANSI_GREEN = "\u001B[32m";
+    //private static final String ANSI_GREEN = "\u001B[32m";
 
     public static void main(String[] args) throws ArrayIndexOutOfBoundsException {
         long startTime, endTime;
@@ -36,11 +36,11 @@ public class FindCell {
         for (int x = 0; x < arrayToCheck.length; x++) {
             for (int y = 0; y < arrayToCheck[0].length; y++) {
 
-                if (arrayToCheck[x][y] == 1 && arrayChecked[x][y] != false) {
+                if (arrayToCheck[x][y] == 1 && arrayChecked[x][y]) {
 
                     // add to list new islands (TreeSet)
-                    treeSetList.add(new TreeSet());
-                    treeSetToCheckList.add(new TreeSet());
+                    treeSetList.add(new TreeSet<>());
+                    treeSetToCheckList.add(new TreeSet<>());
 
                     //cell is checked
                     arrayChecked[x][y] = false;
@@ -56,7 +56,7 @@ public class FindCell {
                         int decCell = treeSetToCheckList.get(i).first();
 
                       //inverting cell from dec to [x][y];
-                        int invArray[]= new int[2];
+                        int invArray[];
                         invArray = invDec(decCell);
                         int xInv = invArray[0];
                         int yInv = invArray[1];
@@ -75,7 +75,7 @@ public class FindCell {
         }
 
 
-        for (TreeSet treeSet : treeSetList) {
+        for (TreeSet<Integer> treeSet : treeSetList) {
             if (treeSet.size()<2){
                 continue;
             }
@@ -89,7 +89,7 @@ public class FindCell {
     }
 
 
-    private static void checkedY(int x, int yCell, TreeSet treeSet, TreeSet treeSetToCheck) {
+    private static void checkedY(int x, int yCell, TreeSet<Integer> treeSet, TreeSet<Integer> treeSetToCheck) {
         //check cell in the x axis (x+1, x-1)
 
         for (int q = -1; q < 2; q++) {
@@ -112,7 +112,7 @@ public class FindCell {
         }
     }
 
-    private static void checkedX(int xCell, int y, TreeSet treeSet, TreeSet treeSetToCheck) {
+    private static void checkedX(int xCell, int y, TreeSet<Integer> treeSet, TreeSet<Integer> treeSetToCheck) {
         //check cell in the x axis (x+1, x-1)
         for (int q = -1; q < 2; q++) {
             if (q == 0) {
@@ -135,7 +135,7 @@ public class FindCell {
 
     private static int toDec(int x, int y) {
         // arrayToCheck[3][6]; x=3; y=6;
-        int dec = 0;
+        int dec;
         dec = (x * arrayToCheck[0].length) + y; // get decimal value of cell [x][y];
         //border
         if (x==0) {
@@ -189,7 +189,7 @@ public class FindCell {
         return invDecArrayXY;
     }
 //TODO
-    private static void display(int massStart[][], List<TreeSet<Integer>> treeSetToDispay){
+ /*   private static void display(int massStart[][], List<TreeSet<Integer>> treeSetToDispay){
         int arrayDisplay[][] = new int[massStart.length][massStart[0].length];
         for (int i=0; i<massStart.length;i++){
             for (int j=0; j<massStart[0].length;i++){
@@ -207,5 +207,5 @@ public class FindCell {
             }
         }
     }
-
+*/
 }
