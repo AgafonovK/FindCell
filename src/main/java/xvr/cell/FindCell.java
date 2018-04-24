@@ -1,10 +1,9 @@
 package xvr.cell;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import java.util.TreeSet;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 public class FindCell {
 
@@ -22,14 +21,55 @@ public class FindCell {
 
     private static List<TreeSet<Integer>> treeSetList = new ArrayList<>();
     private static List<TreeSet<Integer>> treeSetToCheckList = new ArrayList<>();
+    private static List<TreeSet<Integer>> treeSetToTestList = new ArrayList<>();
+
     private static boolean arrayChecked[][] = new boolean[7][10];
     //private static final String ANSI_GREEN = "\u001B[32m";
+    //for JUnit test, return quantity islands.
+    public static int getNumIsland(){
+        return treeSetToTestList.size();
+    }
 
     public static void main(String[] args) throws ArrayIndexOutOfBoundsException {
         long startTime, endTime;
         startTime = System.nanoTime();
+        int n = 0,m=0;
 
-        arrayChecked = initSecondMass(arrayChecked, arrayToCheck);  // init second boolean arrayToCheck where we know check cell or not;
+        FileReader fileReader;
+
+        try {
+            fileReader = new FileReader(args[0]);
+
+            Scanner scanner = new Scanner(fileReader);
+
+            if (scanner.hasNextInt()){
+                n=scanner.nextInt();
+
+            }
+            if (scanner.hasNextInt()){
+                m=scanner.nextInt();
+
+            }
+            if (n==0|m==0) {
+                scanner.close();
+                fileReader.close();
+                System.out.println("ERROR");
+            }
+            arrayToCheck = new int[n][m];
+            arrayChecked = new boolean[n][m];
+            for (int q=0; q<arrayToCheck.length; q++){
+                for (int e=0; e<arrayToCheck[0].length; e++){
+                    if (scanner.hasNextInt()){
+                        arrayToCheck[q][e]=scanner.nextInt();
+                        arrayChecked[q][e] = arrayToCheck[q][e] == 1;
+                    }
+                }
+            }
+            scanner.close();
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         int i = 0;  // number of Islands in ArrayList;
 
@@ -37,6 +77,8 @@ public class FindCell {
             for (int y = 0; y < arrayToCheck[0].length; y++) {
 
                 if (arrayToCheck[x][y] == 1 && arrayChecked[x][y]) {
+                    //list for the JUnit test.
+                    treeSetToTestList.clear();
 
                     // add to list new islands (TreeSet)
                     treeSetList.add(new TreeSet<>());
@@ -68,6 +110,7 @@ public class FindCell {
                         arrayChecked[xInv][yInv] = false;
 
                     }
+
                     //iteration next islands for the new index in List islands;
                     i = i + 1;
                 }
@@ -75,12 +118,23 @@ public class FindCell {
         }
 
 
-        for (TreeSet<Integer> treeSet : treeSetList) {
+       // System.out.println(treeSetList.size());
+       /* for (TreeSet<Integer> treeSet : treeSetList) {
+
             if (treeSet.size()<2){
                 continue;
             }
-            System.out.println(treeSet);
-        }
+           // System.out.println(treeSet);
+        }*/
+        //System.out.println(treeSet);
+        treeSetList.removeIf(treeSet -> treeSet.size() < 2);
+
+        System.out.println("Quantity aslands: "+treeSetList.size());
+
+        treeSetToTestList.addAll(treeSetList);
+        treeSetList.clear();
+        treeSetToCheckList.clear();
+
         endTime = System.nanoTime();
         System.out.println(" time " + (endTime - startTime)/1000000.d + " msc");
 
