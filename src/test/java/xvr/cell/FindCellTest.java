@@ -24,7 +24,7 @@ public class FindCellTest {
     @Test
     public final void testMainOnce() {
         long temp;
-        for (int j = 0; j < filename.length-2; j++) {
+        for (int j = 0; j < filename.length; j++) {
             temp = System.currentTimeMillis();
             FindCell.main(filename[j]);
             System.out.println(filename[j][0] + "  time (sec): \t\t" + (double) (System.currentTimeMillis() - temp) / 1000);
